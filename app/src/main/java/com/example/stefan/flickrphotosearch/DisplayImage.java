@@ -56,7 +56,8 @@ public class DisplayImage extends AppCompatActivity {
 
     }
 
-
+    // ne se koristi zameneto so PhotoView api
+    
     private class ScaleListener extends ScaleGestureDetector.SimpleOnScaleGestureListener{
         @Override
         public boolean onScale(ScaleGestureDetector detector) {

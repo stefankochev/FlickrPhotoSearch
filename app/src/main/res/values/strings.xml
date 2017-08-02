@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">Flickr PhotoSearch</string>
+    <integer name="margins">250</integer>
+</resources>

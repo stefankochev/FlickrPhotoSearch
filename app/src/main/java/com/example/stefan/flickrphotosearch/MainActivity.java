@@ -83,6 +83,7 @@ public class MainActivity extends AppCompatActivity {
 
         itemslist = (ListView)findViewById(R.id.list);
         gridView = (GridView)findViewById(R.id.gridVieww);
+        // GalleryItems list init
         items=new ArrayList<>();
 
         Button btn = (Button)findViewById(R.id.btnSearch);

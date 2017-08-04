@@ -59,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
     private GridView movieGrid;
 
     private static int SPLASH_TIME_OUT = 3000;
-
+    private static final int KEEP_TIME = 1000;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,6 +79,8 @@ public class MainActivity extends AppCompatActivity {
         .defaultDisplayImageOptions(defaultOptions)
         .build();
         ImageLoader.getInstance().init(config); // Do it on Application start
+
+
 
 
         itemslist = (ListView)findViewById(R.id.list);

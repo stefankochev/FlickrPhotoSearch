@@ -3,31 +3,26 @@ package com.example.stefan.flickrphotosearch;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
-import android.os.Handler;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageView;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.stefan.flickrphotosearch.model.GalleryItem;
-import com.example.stefan.flickrphotosearch.model.Movie;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
@@ -35,7 +30,6 @@ import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.json.JSONTokener;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -105,7 +99,8 @@ public class MainActivity extends AppCompatActivity {
                     items.clear();
                 }
                 new JSONTask().execute("https://api.flickr.com/services/rest/?method=flickr.photos.search&%20api_key=178069b03af62f5735258c0a10a14d6e&format=json&nojsoncallback=1&text="+query.getText().toString());
-        }
+
+            }
         });
 
         itemslist.setOnItemClickListener(new AdapterView.OnItemClickListener(){
@@ -131,6 +126,15 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    public void showToast(final String toast){
+        runOnUiThread(new Runnable() {
+            public void run()
+            {
+                Toast.makeText(MainActivity.this, toast, Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
     public class JSONTask extends AsyncTask<String,String,String>{
 
         @Override
@@ -146,7 +150,6 @@ public class MainActivity extends AppCompatActivity {
             try {
                 connection = (HttpsURLConnection) url.openConnection();
                 connection.connect();
-
                 InputStream inputStream = connection.getInputStream();
                 BufferedReader br = new BufferedReader(new InputStreamReader(inputStream));
 
@@ -158,14 +161,21 @@ public class MainActivity extends AppCompatActivity {
                 return sb.toString();
 
             } catch (IOException e) {
-                e.printStackTrace();
+                //e.printStackTrace();
+                showToast("No internet connection!");
             }
 
             return null;
         }
 
+
+
         @Override
         protected void onPostExecute(String result) {
+            if(result == null){
+                return;
+            }
+
             super.onPostExecute(result);
 
             JSONObject jsonObject = null;
